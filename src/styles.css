@@ -1,0 +1,137 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: calc(var(--radius) + 24px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-clay: var(--clay);
+  --color-clay-foreground: var(--clay-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-display: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 10px 30px -12px color-mix(in oklab, var(--ink) 18%, transparent);
+  --shadow-lift: 0 30px 60px -25px color-mix(in oklab, var(--ink) 30%, transparent);
+}
+
+:root {
+  --radius: 1rem;
+
+  --cream: oklch(0.975 0.018 85);
+  --ink: oklch(0.22 0.025 160);
+
+  --background: oklch(0.975 0.018 85);
+  --foreground: oklch(0.22 0.025 160);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.025 160);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.025 160);
+
+  /* Deep sage / teal primary */
+  --primary: oklch(0.42 0.055 165);
+  --primary-foreground: oklch(0.975 0.018 85);
+
+  --secondary: oklch(0.93 0.022 90);
+  --secondary-foreground: oklch(0.22 0.025 160);
+
+  --muted: oklch(0.94 0.015 90);
+  --muted-foreground: oklch(0.45 0.02 160);
+
+  --accent: oklch(0.88 0.04 160);
+  --accent-foreground: oklch(0.22 0.025 160);
+
+  /* Warm terracotta */
+  --clay: oklch(0.68 0.13 45);
+  --clay-foreground: oklch(0.99 0.01 80);
+
+  /* Soft gold */
+  --gold: oklch(0.82 0.10 85);
+  --gold-foreground: oklch(0.22 0.025 160);
+
+  --destructive: oklch(0.577 0.245 27);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.88 0.015 90);
+  --input: oklch(0.88 0.015 90);
+  --ring: oklch(0.42 0.055 165);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-sans { font-family: var(--font-sans); }
+  .text-balance { text-wrap: balance; }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-lift { box-shadow: var(--shadow-lift); }
+
+  @keyframes kenburns {
+    0% { transform: scale(1) translate(0,0); }
+    100% { transform: scale(1.12) translate(-1%, 1%); }
+  }
+  .animate-kenburns { animation: kenburns 8s ease-out forwards; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 40s linear infinite; }
+  .marquee-pause:hover .animate-marquee { animation-play-state: paused; }
+
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 100%; height: 2px;
+    background: var(--clay);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s ease;
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+}
