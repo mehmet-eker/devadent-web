@@ -10,6 +10,55 @@ import {
 
 import appCss from "../styles.css?url";
 
+const SITE_URL = "https://devadentmaras.com";
+const LOGO_URL = `${SITE_URL}/favicon.png`;
+
+// Google'ın işletme logosunu / zengin sonuçları göstermesi için Schema.org yapısal verisi
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  name: "Deva Dent Diş Kliniği",
+  description:
+    "Kahramanmaraş Dulkadiroğlu'nda kadın hekim önderliğinde modern diş kliniği. İmplant, estetik diş hekimliği, ortodonti ve daha fazlası.",
+  url: SITE_URL,
+  logo: LOGO_URL,
+  image: LOGO_URL,
+  telephone: "+905331909146",
+  priceRange: "₺₺",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "İsa Divanlı, Sarayaltı Cd. No:51/A",
+    addressLocality: "Dulkadiroğlu",
+    addressRegion: "Kahramanmaraş",
+    postalCode: "46080",
+    addressCountry: "TR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 37.5789666,
+    longitude: 36.9324446,
+  },
+  hasMap: "https://maps.app.goo.gl/SgPUps1TCoSmrXhY9",
+  sameAs: [
+    "https://www.instagram.com/devadentdis/",
+    "https://www.instagram.com/dt.ecemdereli/",
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "10:00",
+      closes: "14:00",
+    },
+  ],
+};
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -75,18 +124,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Deva Dent Diş Kliniği — Kahramanmaraş'ta Sıcak ve Güvenilir Diş Bakımı" },
       { name: "description", content: "Kahramanmaraş Dulkadiroğlu'nda kadın hekim önderliğinde modern diş kliniği. İmplant, estetik diş hekimliği, ortodonti ve daha fazlası. Hemen randevu alın." },
       { name: "author", content: "Deva Dent" },
+      { property: "og:site_name", content: "Deva Dent Diş Kliniği" },
+      { property: "og:locale", content: "tr_TR" },
+      { property: "og:url", content: SITE_URL },
       { property: "og:title", content: "Deva Dent Diş Kliniği — Gülüşünüze Deva" },
       { property: "og:description", content: "Kahramanmaraş'ın güvenilir diş kliniği. Sıcak bir ortam, deneyimli ekip, hassas bakım." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: LOGO_URL },
+      { property: "og:image:width", content: "96" },
+      { property: "og:image:height", content: "96" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Deva Dent Diş Kliniği — Gülüşünüze Deva" },
+      { name: "twitter:description", content: "Kahramanmaraş'ın güvenilir diş kliniği. Sıcak bir ortam, deneyimli ekip, hassas bakım." },
+      { name: "twitter:image", content: LOGO_URL },
     ],
     links: [
       { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon.png" },
       { rel: "apple-touch-icon", href: "/favicon.png" },
+      { rel: "canonical", href: SITE_URL },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(structuredData),
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -98,7 +163,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <head>
         <HeadContent />
       </head>
