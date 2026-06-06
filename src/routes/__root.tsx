@@ -152,6 +152,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify(structuredData),
       },
+      // Google tag (gtag.js) — Google Ads / dönüşüm ölçümü
+      {
+        async: true,
+        src: "https://www.googletagmanager.com/gtag/js?id=AW-16847363389",
+      },
+      {
+        children:
+          "window.dataLayer = window.dataLayer || [];" +
+          "function gtag(){dataLayer.push(arguments);}" +
+          "gtag('js', new Date());" +
+          "gtag('config', 'AW-16847363389');",
+      },
     ],
   }),
   shellComponent: RootShell,
