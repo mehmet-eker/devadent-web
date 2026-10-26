@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
   Phone, MapPin, Clock, ChevronLeft, ChevronRight, Star, Menu, X,
   Sparkles, Stethoscope, ShieldCheck, HeartHandshake, Baby,
-  Users, Quote, ArrowUpRight, Instagram,
+  Users, Quote, ArrowUpRight, Instagram, CalendarCheck,
 } from "lucide-react";
+import { DoktorTakvimiWidget } from "@/components/DoktorTakvimiWidget";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
@@ -28,6 +29,8 @@ const INSTAGRAM_HANDLE = "@devadentdis";
 const INSTAGRAM_HREF = "https://www.instagram.com/devadentdis/";
 const INSTAGRAM_HANDLE_DOCTOR = "@dt.ecemdereli";
 const INSTAGRAM_HREF_DOCTOR = "https://www.instagram.com/dt.ecemdereli/";
+const DOKTORTAKVIMI_SLUG = "ecem-dereli";
+const DOKTORTAKVIMI_HREF = `https://www.doktortakvimi.com/profil/${DOKTORTAKVIMI_SLUG}`;
 
 // gtag.js __root.tsx içinde global olarak yükleniyor; burada sadece tipini tanıtıyoruz.
 declare global {
@@ -146,6 +149,7 @@ const navLinks = [
   { href: "#hizmetler", label: "Hizmetler" },
   { href: "#neden-biz", label: "Neden Biz" },
   { href: "#yorumlar", label: "Yorumlar" },
+  { href: "#randevu", label: "Randevu" },
   { href: "#ziyaret", label: "Ziyaret" },
 ];
 
@@ -275,8 +279,8 @@ function HeroCarousel() {
             </h1>
             <p className="mt-6 text-cream/85 text-lg md:text-xl max-w-xl text-balance">{s.subtitle}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href={PHONE_HREF} onClick={trackPhoneConversion} className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-cream text-ink font-medium hover:bg-gold transition">
-                <Phone className="w-4 h-4" /> Randevu Al
+              <a href="#randevu" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-cream text-ink font-medium hover:bg-gold transition">
+                <CalendarCheck className="w-4 h-4" /> Randevu Al
               </a>
               <a href="#hizmetler" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-cream/40 text-cream hover:bg-cream/10 transition">
                 Hizmetlerimiz <ArrowUpRight className="w-4 h-4" />
@@ -310,7 +314,10 @@ function HeroCarousel() {
         {slides.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => setI(idx)}
+            onClick={() => {
+              setI(idx);
+              setTimerKey((k) => k + 1);
+            }}
             className="h-1 rounded-full overflow-hidden bg-cream/30"
             style={{ width: idx === i ? 56 : 24 }}
             aria-label={`Slayt ${idx + 1}`}
@@ -546,7 +553,7 @@ function Reviews() {
                 drag={isActive ? "x" : false} // Sadece en öndeki kartı kaydırmaya izin ver
                 dragConstraints={{ left: 0, right: 0 }} // Kaydırdıktan sonra yerine dönsün
                 dragElastic={0.2}
-                onDragEnd={(e, { offset }) => {
+                onDragEnd={(_, { offset }) => {
                   const swipeThreshold = 50;
                   if (offset.x < -swipeThreshold) go(1); // Sola kaydırma -> Sonraki
                   else if (offset.x > swipeThreshold) go(-1); // Sağa kaydırma -> Önceki
@@ -687,8 +694,8 @@ function Visit() {
                         >
                           <p className="pt-3 text-sm text-muted-foreground max-w-md">
                             {d.hours === "Kapalı"
-                              ? "Bugün kliniğimiz kapalıdır. Acil durumlar için telefonumuzdan bize ulaşabilirsiniz."
-                              : "Randevu önceliklidir; aynı gün için boş alan olup olmadığını telefonla teyit edebilirsiniz."}
+                              ? "Pazar günleri kliniğimiz kapalıdır. Acil durumlar için telefonumuzdan bize ulaşabilirsiniz."
+                              : "Randevu önceliklidir; boş saatleri online randevu takviminden görebilir veya telefonla teyit edebilirsiniz."}
                           </p>
                         </motion.div>
                       )}
@@ -724,7 +731,7 @@ function Gallery() {
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href="https://search.google.com/local/reviews?placeid=&q=Deva+Dent+Diş+Kliniği"
+              href={MAPS_HREF}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all"
@@ -771,6 +778,41 @@ function Gallery() {
   );
 }
 
+/* ───────────────────────── Appointment ───────────────────────── */
+function Appointment() {
+  return (
+    <section id="randevu" className="py-24 md:py-32 px-5 md:px-8">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-10 lg:gap-16 items-start">
+        <div className="lg:col-span-2 flex flex-col gap-6 lg:sticky lg:top-28">
+          <span className="text-clay text-sm uppercase tracking-[0.2em]">Online Randevu</span>
+          <h2 className="font-display text-4xl md:text-5xl text-balance">
+            Randevu <span className="italic text-primary">talep edin.</span>
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Güncel boş saatleri takvimden görebilir, size uygun gün ve saati seçerek DoktorTakvimi
+            üzerinden hemen randevunuzu oluşturabilirsiniz.
+          </p>
+          <div className="rounded-3xl bg-secondary border border-border p-6 text-sm text-muted-foreground">
+            Takvim görünmüyorsa{" "}
+            <a href={DOKTORTAKVIMI_HREF} target="_blank" rel="nofollow noreferrer" className="text-primary font-medium hover:underline">
+              DoktorTakvimi profilimizden
+            </a>{" "}
+            randevu alabilir veya bizi{" "}
+            <a href={PHONE_HREF} onClick={trackPhoneConversion} className="text-primary font-medium hover:underline">
+              {PHONE}
+            </a>{" "}
+            numarasından arayabilirsiniz.
+          </div>
+        </div>
+
+        <div className="lg:col-span-3 rounded-3xl bg-card border border-border p-3 md:p-6 shadow-soft">
+          <DoktorTakvimiWidget doctor={DOKTORTAKVIMI_SLUG} profileUrl={DOKTORTAKVIMI_HREF} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────────────────────── CTA ───────────────────────── */
 function CTA() {
   return (
@@ -785,9 +827,12 @@ function CTA() {
             Gülüşünüz için <span className="italic">bir adım</span> daha.
           </h2>
           <p className="mt-6 text-cream/85 max-w-xl mx-auto text-lg">
-            Telefonla arayın veya kliniğimize uğrayın, size en uygun saati birlikte bulalım.
+            Online takvimden randevu alın, telefonla arayın veya kliniğimize uğrayın; size en uygun saati birlikte bulalım.
           </p>
           <div className="mt-10 flex flex-wrap gap-3 justify-center">
+            <a href="#randevu" className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gold text-ink font-medium hover:bg-cream transition">
+              <CalendarCheck className="w-4 h-4" /> Online Randevu
+            </a>
             <a href={PHONE_HREF} onClick={trackPhoneConversion} className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-cream text-ink font-medium hover:bg-gold transition">
               <Phone className="w-4 h-4" /> {PHONE}
             </a>
@@ -848,8 +893,6 @@ function Footer() {
 }
 
 function Index() {
-  // unused import safeguard
-  void useMemo;
   return (
     <main className="bg-background text-foreground overflow-x-hidden">
       <Header />
@@ -859,6 +902,7 @@ function Index() {
       <WhyUs />
       <Reviews />
       <Gallery />
+      <Appointment />
       <Visit />
       <CTA />
       <Footer />
