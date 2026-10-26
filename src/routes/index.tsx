@@ -27,8 +27,8 @@ const ADDRESS = "İsa Divanlı, Sarayaltı Cd. No:51/A, 46080 Dulkadiroğlu / Ka
 const DENTIST_NAME = "Dt. Ecem Dereli";
 const INSTAGRAM_HANDLE = "@devadentdis";
 const INSTAGRAM_HREF = "https://www.instagram.com/devadentdis/";
-const INSTAGRAM_HANDLE_DOCTOR = "@dt.ecemdereli";
-const INSTAGRAM_HREF_DOCTOR = "https://www.instagram.com/dt.ecemdereli/";
+const INSTAGRAM_HANDLE_DOCTOR = "@dishekimiecemdereli";
+const INSTAGRAM_HREF_DOCTOR = "https://www.instagram.com/dishekimiecemdereli/";
 const DOKTORTAKVIMI_SLUG = "ecem-dereli";
 const DOKTORTAKVIMI_HREF = `https://www.doktortakvimi.com/profil/${DOKTORTAKVIMI_SLUG}`;
 
@@ -136,12 +136,12 @@ const reviews = [
 ];
 
 const schedule = [
-  { day: "Pazartesi", hours: "09:00 – 19:00", jsDay: 1 },
-  { day: "Salı", hours: "09:00 – 19:00", jsDay: 2 },
-  { day: "Çarşamba", hours: "09:00 – 19:00", jsDay: 3 },
-  { day: "Perşembe", hours: "09:00 – 19:00", jsDay: 4 },
-  { day: "Cuma", hours: "09:00 – 19:00", jsDay: 5 },
-  { day: "Cumartesi", hours: "10:00 – 17:00", jsDay: 6 },
+  { day: "Pazartesi", hours: "09:00 – 18:00", jsDay: 1 },
+  { day: "Salı", hours: "09:00 – 18:00", jsDay: 2 },
+  { day: "Çarşamba", hours: "09:00 – 18:00", jsDay: 3 },
+  { day: "Perşembe", hours: "09:00 – 18:00", jsDay: 4 },
+  { day: "Cuma", hours: "09:00 – 18:00", jsDay: 5 },
+  { day: "Cumartesi", hours: "10:00 – 18:00", jsDay: 6 },
   { day: "Pazar", hours: "Kapalı", jsDay: 0 },
 ];
 
@@ -867,7 +867,7 @@ function Footer() {
           <ul className="space-y-3 text-cream/85">
             <li className="flex items-start gap-3"><MapPin className="w-4 h-4 mt-1 shrink-0 text-gold" /><span>{ADDRESS}</span></li>
             <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-gold" /><a href={PHONE_HREF} onClick={trackPhoneConversion} className="hover:text-gold transition">{PHONE}</a></li>
-            <li className="flex items-center gap-3"><Clock className="w-4 h-4 text-gold" /><span>Pzt – Cum 09:00 – 19:00</span></li>
+            <li className="flex items-center gap-3"><Clock className="w-4 h-4 text-gold" /><span>Pzt – Cum 09:00 – 18:00 · Cmt 10:00 – 18:00</span></li>
             <li className="flex items-center gap-3"><Instagram className="w-4 h-4 text-gold" /><a href={INSTAGRAM_HREF} target="_blank" rel="noreferrer" className="hover:text-gold transition">{INSTAGRAM_HANDLE}</a></li>
             <li className="flex items-center gap-3"><Instagram className="w-4 h-4 text-gold" /><a href={INSTAGRAM_HREF_DOCTOR} target="_blank" rel="noreferrer" className="hover:text-gold transition">{INSTAGRAM_HANDLE_DOCTOR}</a></li>
           </ul>

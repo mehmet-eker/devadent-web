@@ -41,20 +41,20 @@ const structuredData = {
   hasMap: "https://maps.app.goo.gl/SgPUps1TCoSmrXhY9",
   sameAs: [
     "https://www.instagram.com/devadentdis/",
-    "https://www.instagram.com/dt.ecemdereli/",
+    "https://www.instagram.com/dishekimiecemdereli/",
   ],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "09:00",
-      closes: "19:00",
+      closes: "18:00",
     },
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: "Saturday",
       opens: "10:00",
-      closes: "17:00",
+      closes: "18:00",
     },
   ],
 };
