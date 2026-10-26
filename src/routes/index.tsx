@@ -892,7 +892,29 @@ function Footer() {
   );
 }
 
+// Dışarıdan devadentmaras.com/#randevu gibi bir linkle gelindiğinde tarayıcının yumuşak kaydırması
+// sayfa yüklenirken yarıda kesiliyor. Sayfa yüklendikten sonra ilgili bölüme doğrudan atlıyoruz.
+function useScrollToHashOnLoad() {
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const scroll = () => {
+      timer = setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "instant", block: "start" });
+      }, 100);
+    };
+    if (document.readyState === "complete") scroll();
+    else window.addEventListener("load", scroll, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("load", scroll);
+    };
+  }, []);
+}
+
 function Index() {
+  useScrollToHashOnLoad();
   return (
     <main className="bg-background text-foreground overflow-x-hidden">
       <Header />
