@@ -32,21 +32,7 @@ const INSTAGRAM_HREF_DOCTOR = "https://www.instagram.com/dishekimiecemdereli/";
 const DOKTORTAKVIMI_SLUG = "ecem-dereli";
 const DOKTORTAKVIMI_HREF = `https://www.doktortakvimi.com/profil/${DOKTORTAKVIMI_SLUG}`;
 
-// gtag.js __root.tsx içinde global olarak yükleniyor; burada sadece tipini tanıtıyoruz.
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-// Google Ads "Telefon Araması" dönüşümü.
-// tel: linkleri sayfayı yeniden yüklemez (telefon uygulaması açılır), bu yüzden
-// olayı doğrudan gönderip linkin varsayılan davranışına engel olmuyoruz.
-function trackPhoneConversion() {
-  window.gtag?.("event", "conversion", {
-    send_to: "AW-16847363389/BiPMCJPmo7scEL26ueE-",
-  });
-}
+// tel: ve WhatsApp dönüşüm takibi __root.tsx içindeki ortak dinleyiciyle yapılıyor.
 
 const slides = [
   {
@@ -186,7 +172,7 @@ function Header() {
              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-foreground/15 text-sm hover:bg-foreground/5 transition">
             <MapPin className="w-4 h-4" /> Yol Tarifi
           </a>
-          <a href={PHONE_HREF} onClick={trackPhoneConversion}
+          <a href={PHONE_HREF}
              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition">
             <Phone className="w-4 h-4" /> Ara
           </a>
@@ -210,7 +196,7 @@ function Header() {
                 <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-foreground/80 text-lg">{l.label}</a>
               ))}
               <div className="flex gap-2 pt-3">
-                <a href={PHONE_HREF} onClick={trackPhoneConversion} className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground">
+                <a href={PHONE_HREF} className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground">
                   <Phone className="w-4 h-4" /> Ara
                 </a>
                 <a href={MAPS_HREF} target="_blank" rel="noreferrer"
@@ -627,7 +613,7 @@ function Visit() {
               </span>
               <div>
                 <div className="font-medium">Telefon</div>
-                <a href={PHONE_HREF} onClick={trackPhoneConversion} className="text-muted-foreground mt-1 hover:text-primary transition block">{PHONE}</a>
+                <a href={PHONE_HREF} className="text-muted-foreground mt-1 hover:text-primary transition block">{PHONE}</a>
               </div>
             </div>
             <div className="h-px bg-border my-6" />
@@ -644,7 +630,7 @@ function Visit() {
           </div>
 
           <div className="flex gap-3">
-            <a href={PHONE_HREF} onClick={trackPhoneConversion} className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition">
+            <a href={PHONE_HREF} className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition">
               <Phone className="w-4 h-4" /> Hemen Ara
             </a>
             <a href={MAPS_HREF} target="_blank" rel="noreferrer"
@@ -798,7 +784,7 @@ function Appointment() {
               DoktorTakvimi profilimizden
             </a>{" "}
             randevu alabilir veya bizi{" "}
-            <a href={PHONE_HREF} onClick={trackPhoneConversion} className="text-primary font-medium hover:underline">
+            <a href={PHONE_HREF} className="text-primary font-medium hover:underline">
               {PHONE}
             </a>{" "}
             numarasından arayabilirsiniz.
@@ -833,7 +819,7 @@ function CTA() {
             <a href="#randevu" className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gold text-ink font-medium hover:bg-cream transition">
               <CalendarCheck className="w-4 h-4" /> Online Randevu
             </a>
-            <a href={PHONE_HREF} onClick={trackPhoneConversion} className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-cream text-ink font-medium hover:bg-gold transition">
+            <a href={PHONE_HREF} className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-cream text-ink font-medium hover:bg-gold transition">
               <Phone className="w-4 h-4" /> {PHONE}
             </a>
             <a href={MAPS_HREF} target="_blank" rel="noreferrer"
@@ -866,7 +852,7 @@ function Footer() {
           <div className="text-gold text-xs uppercase tracking-[0.25em] mb-4">İletişim</div>
           <ul className="space-y-3 text-cream/85">
             <li className="flex items-start gap-3"><MapPin className="w-4 h-4 mt-1 shrink-0 text-gold" /><span>{ADDRESS}</span></li>
-            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-gold" /><a href={PHONE_HREF} onClick={trackPhoneConversion} className="hover:text-gold transition">{PHONE}</a></li>
+            <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-gold" /><a href={PHONE_HREF} className="hover:text-gold transition">{PHONE}</a></li>
             <li className="flex items-center gap-3"><Clock className="w-4 h-4 text-gold" /><span>Pzt – Cum 09:00 – 18:00 · Cmt 10:00 – 18:00</span></li>
             <li className="flex items-center gap-3"><Instagram className="w-4 h-4 text-gold" /><a href={INSTAGRAM_HREF} target="_blank" rel="noreferrer" className="hover:text-gold transition">{INSTAGRAM_HANDLE}</a></li>
             <li className="flex items-center gap-3"><Instagram className="w-4 h-4 text-gold" /><a href={INSTAGRAM_HREF_DOCTOR} target="_blank" rel="noreferrer" className="hover:text-gold transition">{INSTAGRAM_HANDLE_DOCTOR}</a></li>

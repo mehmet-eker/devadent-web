@@ -59,6 +59,25 @@ const structuredData = {
   ],
 };
 
+const CONTACT_CONVERSION_SEND_TO = "AW-16847363389/cPlDCP2nzqodEL26ueE-";
+
+const contactConversionScript = `
+document.addEventListener("click", function (e) {
+  var target = e.target;
+  if (!(target instanceof Element)) return;
+  var link = target.closest("a[href]");
+  if (!link) return;
+  var href = (link.getAttribute("href") || "").trim().toLowerCase();
+  var isTel = href.indexOf("tel:") === 0;
+  var isWhatsApp = /^(https?:)?\\/\\/(wa\\.me|api\\.whatsapp\\.com)(\\/|\\?|$)/.test(href);
+  if (!isTel && !isWhatsApp) return;
+  if (typeof window.gtag !== "function") return;
+  try {
+    window.gtag("event", "conversion", { send_to: "${CONTACT_CONVERSION_SEND_TO}" });
+  } catch (err) {}
+}, true);
+`;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -164,6 +183,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "gtag('js', new Date());" +
           "gtag('config', 'AW-16847363389');",
       },
+      // Google Ads dönüşümü: tel: ve WhatsApp linklerine tıklamalar.
+      // document üzerinde tek dinleyici olduğu için sonradan eklenen butonlar da sayılır.
+      // Tıklamayı engellemez/geciktirmez; gtag yoksa sessizce atlar.
+      { children: contactConversionScript },
     ],
   }),
   shellComponent: RootShell,
